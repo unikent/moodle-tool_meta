@@ -75,7 +75,7 @@ TABLE;
 foreach ($courses as $course) {
 	echo '<tr href="' . $CFG->wwwroot . '/local/kentmetacourse/module.php?id='. $course->id .'">';
 	echo '<td>' . $course->shortname . '</td>';
-	echo '<td><a class="course_link" href="'. $CFG->wwwroot .'/course/view.php?id='. $course->id .'" target="_blank">View this course</a> ' . $course->fullname . '</td>';
+	echo '<td><a class="course_link" href="'. $CFG->wwwroot .'/course/view.php?id='. $course->id .'" target="_blank">View this course</a> ' . $course->shortname . ':' . $course->fullname . '</td>';
 	echo '</tr>';
 }
 

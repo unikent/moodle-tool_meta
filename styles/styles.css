@@ -751,19 +751,19 @@ table.display tr.gradeU {
 }
 
 #coursetable_wrap.add_course_table_wrap .options_bar {
-	background-color: rgb(203,227,199);
-	background-image: linear-gradient(bottom, rgb(184,209,179) 4%, rgb(203,227,199) 74%);
-	background-image: -o-linear-gradient(bottom, rgb(184,209,179) 4%, rgb(203,227,199) 74%);
-	background-image: -moz-linear-gradient(bottom, rgb(184,209,179) 4%, rgb(203,227,199) 74%);
-	background-image: -webkit-linear-gradient(bottom, rgb(184,209,179) 4%, rgb(203,227,199) 74%);
-	background-image: -ms-linear-gradient(bottom, rgb(184,209,179) 4%, rgb(203,227,199) 74%);
+	background-color: rgb(159,179,156);
+	background-image: linear-gradient(bottom, rgb(143,167,138) 4%, rgb(159,179,156) 74%);
+	background-image: -o-linear-gradient(bottom, rgb(143,167,138) 4%, rgb(159,179,156) 74%);
+	background-image: -moz-linear-gradient(bottom, rgb(143,167,138) 4%, rgb(159,179,156) 74%);
+	background-image: -webkit-linear-gradient(bottom, rgb(143,167,138) 4%, rgb(159,179,156) 74%);
+	background-image: -ms-linear-gradient(bottom, rgb(143,167,138) 4%, rgb(159,179,156) 74%);
 
 	background-image: -webkit-gradient(
 		linear,
 		left bottom,
 		left top,
-		color-stop(0.04, rgb(184,209,179)),
-		color-stop(0.74, rgb(203,227,199))
+		color-stop(0.04, rgb(143,167,138)),
+		color-stop(0.74, rgb(159,179,156))
 	);
 	border-color: white white #abc4a7 white;
 	border-style: solid;
@@ -946,19 +946,19 @@ table.display tr.gradeU {
 		}
 
 		#coursetable_wrap.add_course_table_wrap .coursetable_pages {
-			background-color: rgb(203,227,199);
-			background-image: linear-gradient(bottom, rgb(184,209,179) 4%, rgb(203,227,199) 74%);
-			background-image: -o-linear-gradient(bottom, rgb(184,209,179) 4%, rgb(203,227,199) 74%);
-			background-image: -moz-linear-gradient(bottom, rgb(184,209,179) 4%, rgb(203,227,199) 74%);
-			background-image: -webkit-linear-gradient(bottom, rgb(184,209,179) 4%, rgb(203,227,199) 74%);
-			background-image: -ms-linear-gradient(bottom, rgb(184,209,179) 4%, rgb(203,227,199) 74%);
+			background-color: rgb(159,179,156);
+			background-image: linear-gradient(bottom, rgb(143,167,138) 4%, rgb(159,179,156) 74%);
+			background-image: -o-linear-gradient(bottom, rgb(143,167,138) 4%, rgb(159,179,156) 74%);
+			background-image: -moz-linear-gradient(bottom, rgb(143,167,138) 4%, rgb(159,179,156) 74%);
+			background-image: -webkit-linear-gradient(bottom, rgb(143,167,138) 4%, rgb(159,179,156) 74%);
+			background-image: -ms-linear-gradient(bottom, rgb(143,167,138) 4%, rgb(159,179,156) 74%);
 
 			background-image: -webkit-gradient(
 				linear,
 				left bottom,
 				left top,
-				color-stop(0.04, rgb(184,209,179)),
-				color-stop(0.74, rgb(203,227,199))
+				color-stop(0.04, rgb(143,167,138)),
+				color-stop(0.74, rgb(159,179,156))
 			);
 			border-color: #abc4a7 #fff #fff #fff;
 			border-style: solid;

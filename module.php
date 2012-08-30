@@ -108,7 +108,7 @@ foreach ($mycourses as $mycourse) {
     }
 	$aurl = new moodle_url($url, array('action'=>'add', 'module'=>$mycourse->id));
 	$courses .= '<tr href="' . $aurl .'">';
-	$courses .= '<td><a class="course_link" href="'. $CFG->wwwroot .'/course/view.php?id='. $mycourse->id .'" target="_blank">View this course</a>' . $mycourse->fullname . '</td>';
+	$courses .= '<td><a class="course_link" href="'. $CFG->wwwroot .'/course/view.php?id='. $mycourse->id .'" target="_blank">View this course</a>' . $mycourse->shortname . ':' . $mycourse->fullname . '</td>';
     $courses .= '<td>' . $enrolc . '</td>';
 	$courses .= '</tr>';
 }
