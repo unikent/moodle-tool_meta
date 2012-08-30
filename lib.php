@@ -102,13 +102,13 @@ function kent_meta_course_get_my_courses($fields = NULL, $sort = 'sortorder ASC'
     $systemcontext = get_context_instance(CONTEXT_SYSTEM);
 
     if(has_capability('moodle/site:config', $systemcontext)) {
-    	$sql = 'SELECT c.id, c.fullname FROM {course} AS c LEFT JOIN {connect_course_dets} AS cd ON c.id = cd.course WHERE cd.course IS NOT NULL';
+    	$sql = 'SELECT c.id, c.fullname, c.shortname FROM {course} AS c LEFT JOIN {connect_course_dets} AS cd ON c.id = cd.course WHERE cd.course IS NOT NULL';
     	$courses = $DB->get_records_sql($sql);
     	return $courses;
     }
 
 
-    $basefields = array('id','fullname');
+    $basefields = array('id','fullname', 'shortname');
 
     if (empty($fields)) {
         $fields = $basefields;
