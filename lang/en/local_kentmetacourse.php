@@ -34,4 +34,6 @@ $string['pluginname'] = 'Kent meta course';
 $string['no_permissions'] = 'Sorry, but you do not currently have permissions to access this page';
 $string['coursetitle'] = 'has the following meta enrollments:';
 $string['manageheader'] = 'Manage meta enrollments';
+$string['addheader'] = 'Add meta enrollments';
+$string['delete_all'] = 'Are you sure you want to delete all of the enrollments for this module?';
 

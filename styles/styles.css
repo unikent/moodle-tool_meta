@@ -600,6 +600,7 @@ table.display tr.gradeU {
 }
 
 #linkedcourses_wrap {
+	overflow: auto;
 	margin-top: 20px;
 	border: 1px solid #e3e3e3;
 	-webkit-border-radius: 5px;
@@ -625,12 +626,70 @@ table.display tr.gradeU {
 			font-size: 24px;
 		}
 
+	#add_modules {
+		display: block;
+		float: right;
+		padding: 5px 8px;
+		margin-right: 10px;
+		color: #fff;
+		background: #27519f;
+		border: 1px solid #1c3d7c;
+		border-top: 0px;
+		/*-webkit-box-shadow: inset 0px -1px 0px 0px #fff;
+		box-shadow: inset 0px -1px 0px 1px #fff;*/
+		-webkit-border-bottom-right-radius: 3px;
+		-webkit-border-bottom-left-radius: 3px;
+		-moz-border-radius-bottomright: 3px;
+		-moz-border-radius-bottomleft: 3px;
+		border-bottom-right-radius: 3px;
+		border-bottom-left-radius: 3px;
+	}
+
+		#add_modules:hover {
+			text-decoration: none !important;
+			background: #3b65b3;
+		}
+
+		#add_modules:active {
+			background: #224179;
+		}
+
+	#delete_all {
+		display: block;
+		float: right;
+		padding: 5px 8px;
+		color: #fff;
+		background: #cf8787;
+		border: 1px solid #a66969;
+		border-top: 0px;
+		/*-webkit-box-shadow: inset 0px -1px 0px 0px #fff;
+		box-shadow: inset 0px -1px 0px 1px #fff;*/
+		-webkit-border-bottom-right-radius: 3px;
+		-webkit-border-bottom-left-radius: 3px;
+		-moz-border-radius-bottomright: 3px;
+		-moz-border-radius-bottomleft: 3px;
+		border-bottom-right-radius: 3px;
+		border-bottom-left-radius: 3px;
+	}
+
+		#delete_all:hover {
+			text-decoration: none !important;
+			background: #dfb3b3;
+		}
+
+		#delete_all:active {
+			background: #b17070;
+		}
+
 	#linkedcourse {
 		background: #fff;
 		border: 1px solid #e3e3e3;
 		-webkit-border-radius: 3px;
+		-webkit-border-bottom-right-radius: 0;
 		-moz-border-radius: 3px;
+		-moz-border-radius-bottomright: 0;
 		border-radius: 3px;
+		border-bottom-right-radius: 0;
 		padding: 10px 10px 0px 10px;
 		margin: 0px;
 		-webkit-box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.08);
@@ -711,6 +770,14 @@ table.display tr.gradeU {
 	width: 10%;
 }
 
+#meta_enrol #meta_enrol_sub {
+	display: none;
+}
+
+#coursetable_wrap.add_course_table_wrap {
+	margin-top: 13px;
+}
+
 #coursetable_wrap .options_bar {
 	clear: both;
 	padding: 20px;
@@ -778,6 +845,11 @@ table.display tr.gradeU {
 		text-shadow: 1px 1px 0px rgba(0,0,0, .2);
 	}
 
+		.add_course_table_wrap .options_bar h3 i {
+			font-size: 14px;
+			margin: 0px 5px
+		}
+
 	.index_course_table_wrap .options_bar  .search, .add_course_table_wrap .options_bar .search {
 		display: inline;
 	}
@@ -789,6 +861,53 @@ table.display tr.gradeU {
 		}
 
 		.placeholder { color: #aaa; }
+
+	.add_course_table_wrap .options_bar .optbtn {
+		display: inline;
+		cursor: pointer;
+		padding: 10px;
+		margin: 0px 10px;
+		color: #fff;
+		border: 1px solid #000;
+		background: #000;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		-webkit-box-shadow: inset 0px 0px 0px 1px #fff;
+		box-shadow: inset 0px 0px 0px 1px #fff;
+	}
+
+	#add_enrol {
+		background: #27519f;
+		border-color: #1c3d7c;
+	}
+
+		#add_enrol:hover {
+			background: #3b65b3;
+		}
+
+		#add_enrol:active {
+			background: #224179;
+		}
+
+	#sel, #desel {
+		float: right;
+		color: #6f6f6f;
+		background: #d6d6d6;
+		border-color: #848484;
+	}
+
+		#sel:hover, #desel:hover {
+			background: #e3e3e3;
+		}
+
+		#sel:active, #desel:active {
+			background: #c4c4c4;
+		}
+
+	.add_course_table_wrap .options_bar .optbtn.hidden {
+		display: none;
+	}
 
 	.index_course_table_wrap #coursetable thead {
 		display: none;
@@ -821,6 +940,10 @@ table.display tr.gradeU {
 	}
 
 	#coursetable tbody tr:active {
+		background: #c2cad8;
+	}
+
+	#coursetable tbody tr.selected {
 		background: #b0bbcd;
 	}
 

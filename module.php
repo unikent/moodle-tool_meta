@@ -20,7 +20,6 @@ global $USER, $DB;
 $id = required_param('id', PARAM_INT); // course id
 $action     = optional_param('action', '', PARAM_ACTION);
 $instanceid = optional_param('instance', 0, PARAM_INT);
-$module = optional_param('module', 0, PARAM_INT);
 $confirm    = optional_param('confirm', 0, PARAM_BOOL);
 
 $course = $DB->get_record('course', array('id'=>$id), '*', MUST_EXIST);
@@ -68,13 +67,28 @@ if ($action and confirm_sesskey()) {
                 echo $OUTPUT->footer();
                 die();
             }
-        } else if ($action == 'add' && isset($module)) {
-            $eid = $enrol->add_instance($course, array('customint1' => $module));
-            enrol_meta_sync($course->id);
-            redirect(new moodle_url($url, array('id'=>$course->id)));
+        } else if ($action === 'delete_all') {
+
+            if($confirm) {
+                foreach ($instances as $instance) {
+                    $plugin = $plugins[$instance->enrol];
+                    $plugin->delete_instance($instance);
+                }
+
+                redirect($PAGE->url);
+            }
+
+            echo $OUTPUT->header();
+            $yesurl = new moodle_url($url, array('id'=>$course->id, 'action'=>'delete_all', 'confirm'=>1,'sesskey'=>sesskey()));
+            $message = get_string('delete_all', 'local_kentmetacourse');
+            echo $OUTPUT->confirm($message, $yesurl, $PAGE->url);
+            echo $OUTPUT->footer();
+            die();
+
         }
 }
 
+//Setting up the enrollments bar
 foreach ($instances as $instance) {
 	if (!isset($plugins[$instance->enrol])) {
         continue;
@@ -92,27 +106,21 @@ foreach ($instances as $instance) {
     }
 }
 
+$editbtns = '';
+
 if($linkedcourse === '') {
     $linkedcourse = '<div id="linkedcourse" class="no_enrollments">No Enrollments</div>';
+    $deleteall = '';
 } else {
     $linkedcourse = '<ul id="linkedcourse">' . $linkedcourse . '</ul>';
+    $durl = new moodle_url($url, array('action'=>'delete_all'));
+    $editbtns .= "<a id='delete_all' href='$durl'>Remove all enrollments</a>";
 }
 
-$mycourses = kent_meta_course_get_my_courses();
+$addurl = new moodle_url('/local/kentmetacourse/add.php', array('id'=>$course->id));
+$editbtns .= "<a id='add_modules' href='$addurl'>Add enrollments</a>";
 
-foreach ($mycourses as $mycourse) {
-    $enrols = enrol_get_instances($mycourse->id, false);
-    $enrolc = 0;
-    foreach ($enrols as $enrollment) {
-       $enrolc += $DB->count_records('user_enrolments', array('enrolid'=>$enrollment->id)); 
-    }
-	$aurl = new moodle_url($url, array('action'=>'add', 'module'=>$mycourse->id));
-	$courses .= '<tr href="' . $aurl .'">';
-	$courses .= '<td><a class="course_link" href="'. $CFG->wwwroot .'/course/view.php?id='. $mycourse->id .'" target="_blank">View this course</a>' . $mycourse->shortname . ':' . $mycourse->fullname . '</td>';
-    $courses .= '<td>' . $enrolc . '</td>';
-	$courses .= '</tr>';
-}
-
+//Outputting to the page
 $PAGE->set_pagelayout('admin');
 $PAGE->navbar->add(get_string('pluginname', 'local_kentmetacourse'));
 
@@ -120,7 +128,9 @@ $PAGE->set_title('Manage meta enrollments');
 $PAGE->set_heading('Manage meta enrollments');
 
 $scripts ='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/jquery-1.7.1.min.js" type="text/javascript"></script>';
+$scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/underscore-min.js" type="text/javascript"></script>';
 $scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/jquery.dataTables.min.js" type="text/javascript"></script>';
+$scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/jquery.placeholder.min.js" type="text/javascript"></script>';
 $scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/app.js" type="text/javascript"></script>';
 $scripts .= '<link rel="stylesheet" type="text/css" href="' . $CFG->wwwroot . '/local/kentmetacourse/styles/styles.css">';
 echo $scripts;
@@ -136,34 +146,8 @@ echo <<< LINKEDCOURSES
 	<div id="linkedcourses_wrap">
         <h3><a href="$CFG->wwwroot/course/view.php?id=$course->id" target="_blank">$course->shortname</a> $coursetitle</h3>
 		$linkedcourse
+        $editbtns
 	</div>
 LINKEDCOURSES;
-
-echo <<< TABLE
-<div id="coursetable_wrap" class="add_course_table_wrap">
-<div class="options_bar">
-    <h3>Please</h3>
-    <div class="search">
-        <input type="text" id="search_box" name="search_box" placeholder="Search">
-    </div>
-    <h3>and choose a Module to add enrollments from:</h3>
-</div>
-<table id="coursetable">
-    <thead>
-        <tr>
-            <th id="name">Name</th>
-            <th id="enrol">Enrollments</th>
-        </tr>
-    </thead>
-    <tbody>
-TABLE;
-
-echo $courses;
-
-echo <<< TABLE
-	  </tbody>
-</table>
-</div>
-TABLE;
 
 echo $OUTPUT->footer();
