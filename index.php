@@ -39,6 +39,7 @@ $PAGE->navbar->add(get_string('pluginname', 'local_kentmetacourse'));
 $PAGE->set_title(get_string('pluginname', 'local_kentmetacourse'));
 $PAGE->set_heading(get_string('pluginname', 'local_kentmetacourse'));
 
+echo $OUTPUT->header();
 
 //Set up the scripts for the page and then echo them out to the page
 $scripts ='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/jquery-1.7.1.min.js" type="text/javascript"></script>';
@@ -50,7 +51,6 @@ $scripts .= '<link rel="stylesheet" type="text/css" href="' . $CFG->wwwroot . '/
 echo $scripts;
 
 //echo out the heading etc to the page
-echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'local_kentmetacourse'));
 
 //echo out the base table html to the page for datatables to pick up

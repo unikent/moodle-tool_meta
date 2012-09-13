@@ -100,6 +100,8 @@ $PAGE->navbar->add(get_string('pluginname', 'local_kentmetacourse'));
 $PAGE->set_title('Add meta enrollments');
 $PAGE->set_heading('Add meta enrollments');
 
+echo $OUTPUT->header();
+
 $scripts ='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/jquery-1.7.1.min.js" type="text/javascript"></script>';
 $scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/underscore-min.js" type="text/javascript"></script>';
 $scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/jquery.dataTables.min.js" type="text/javascript"></script>';
@@ -108,7 +110,7 @@ $scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/app.
 $scripts .= '<link rel="stylesheet" type="text/css" href="' . $CFG->wwwroot . '/local/kentmetacourse/styles/styles.css">';
 echo $scripts;
 
-echo $OUTPUT->header();
+
 echo $OUTPUT->heading(get_string('addheader', 'local_kentmetacourse'));
 
 $coursetitle = get_string('coursetitle', 'local_kentmetacourse');
