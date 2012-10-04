@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Kent meta course';
 $string['no_permissions'] = 'Sorry, but you do not currently have permissions to access this page';
-$string['coursetitle'] = 'has the following meta enrollments:';
+$string['coursetitle'] = 'has the following meta enrollments (changes will be implemented overnight):';
 $string['manageheader'] = 'Manage meta enrollments';
 $string['addheader'] = 'Add meta enrollments';
 $string['delete_all'] = 'Are you sure you want to delete all of the enrollments for this module?';

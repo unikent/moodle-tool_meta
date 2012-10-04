@@ -54,7 +54,6 @@ if ($action and confirm_sesskey()) {
             foreach ($addcourses as $c) {
                 $eid = $enrol->add_instance($course, array('customint1' => $c));
             }
-            enrol_meta_sync($course->id);
             redirect(new moodle_url('/local/kentmetacourse/module.php', array('id'=>$course->id)));
         }
 }
