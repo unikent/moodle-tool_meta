@@ -9,7 +9,7 @@ function kent_meta_course_get_my_meta_courses($fields = NULL, $sort = 'sortorder
         return(array());
     }
 
-    $systemcontext = get_context_instance(CONTEXT_SYSTEM);
+    $systemcontext = context_system::instance();
 
     if(has_capability('moodle/site:config', $systemcontext)) {
     	$sql = 'SELECT c.id, c.fullname, c.shortname FROM {course} AS c LEFT JOIN {connect_course_dets} AS cd ON c.id = cd.course WHERE isnull(cd.course)';
@@ -99,7 +99,7 @@ function kent_meta_course_get_my_courses($fields = NULL, $sort = 'sortorder ASC'
         return(array());
     }
 
-    $systemcontext = get_context_instance(CONTEXT_SYSTEM);
+    $systemcontext = context_system::instance();
 
     if(has_capability('moodle/site:config', $systemcontext)) {
     	$sql = 'SELECT c.id, c.fullname, c.shortname FROM {course} AS c LEFT JOIN {connect_course_dets} AS cd ON c.id = cd.course WHERE cd.course IS NOT NULL';

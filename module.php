@@ -28,7 +28,7 @@ $plugins   = enrol_get_plugins(false);
 $enrol = enrol_get_plugin('meta');
 
 $context = get_context_instance(CONTEXT_COURSE, $course->id, MUST_EXIST);
-$systemcontext = get_context_instance(CONTEXT_SYSTEM);
+$systemcontext = context_system::instance();
 
 $url = new moodle_url('/local/kentmetacourse/module.php', array('sesskey'=>sesskey(), 'id'=>$course->id));
 $linkedcourse = '';

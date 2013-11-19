@@ -18,7 +18,7 @@ require_once(dirname(__FILE__) . '/lib.php');
 global $USER, $DB;
 
 
-$systemcontext = get_context_instance(CONTEXT_SYSTEM);
+$systemcontext = context_system::instance();
 
 require_login();
 
@@ -32,7 +32,7 @@ $courses = kent_meta_course_get_my_meta_courses();
 
 
 //Set up standard moodle page information
-$PAGE->set_context(get_context_instance(CONTEXT_SYSTEM));
+$PAGE->set_context(context_system::instance());
 $PAGE->set_url('/local/kentmetacourse/index.php');
 $PAGE->set_pagelayout('admin');
 $PAGE->navbar->add(get_string('pluginname', 'local_kentmetacourse'));

@@ -30,7 +30,7 @@ $enrol = enrol_get_plugin('meta');
 $instcourses = array();
 
 $context = get_context_instance(CONTEXT_COURSE, $course->id, MUST_EXIST);
-$systemcontext = get_context_instance(CONTEXT_SYSTEM);
+$systemcontext = context_system::instance();
 
 $url = new moodle_url('/local/kentmetacourse/add.php', array('sesskey'=>sesskey(), 'id'=>$course->id));
 $courses = '';
