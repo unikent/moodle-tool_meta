@@ -61,7 +61,7 @@ echo <<< TABLE
 	<div class="search">
 		<input type="text" id="search_box" name="search_box" placeholder="Search">
 	</div>
-	<h3>and choose a Module to mange:</h3>
+	<h3>and choose a module to manage:</h3>
 </div>
 <table id="coursetable">
     <thead>
