@@ -39,10 +39,12 @@ $PAGE->navbar->add(get_string('pluginname', 'local_kentmetacourse'));
 $PAGE->set_title(get_string('pluginname', 'local_kentmetacourse'));
 $PAGE->set_heading(get_string('pluginname', 'local_kentmetacourse'));
 
+$PAGE->requires->jquery();
+$PAGE->requires->jquery_plugin('migrate');
+
 echo $OUTPUT->header();
 
 //Set up the scripts for the page and then echo them out to the page
-$scripts ='<script src="' . $CFG->wwwroot . '/lib/jquery/jquery-1.7.1.min.js" type="text/javascript"></script>';
 $scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/underscore-min.js" type="text/javascript"></script>';
 $scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/jquery.dataTables.min.js" type="text/javascript"></script>';
 $scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/jquery.placeholder.min.js" type="text/javascript"></script>';

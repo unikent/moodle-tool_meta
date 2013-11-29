@@ -99,9 +99,11 @@ $PAGE->navbar->add(get_string('pluginname', 'local_kentmetacourse'));
 $PAGE->set_title('Add meta enrollments');
 $PAGE->set_heading('Add meta enrollments');
 
+$PAGE->requires->jquery();
+$PAGE->requires->jquery_plugin('migrate');
+
 echo $OUTPUT->header();
 
-$scripts ='<script src="' . $CFG->wwwroot . '/lib/jquery/jquery-1.7.1.min.js" type="text/javascript"></script>';
 $scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/underscore-min.js" type="text/javascript"></script>';
 $scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/jquery.dataTables.min.js" type="text/javascript"></script>';
 $scripts .='<script src="' . $CFG->wwwroot . '/local/kentmetacourse/scripts/jquery.placeholder.min.js" type="text/javascript"></script>';
