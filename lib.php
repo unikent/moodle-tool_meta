@@ -12,7 +12,7 @@ function kent_meta_course_get_my_meta_courses($fields = NULL, $sort = 'sortorder
     $systemcontext = context_system::instance();
 
     if(has_capability('moodle/site:config', $systemcontext)) {
-    	$sql = 'SELECT c.id, c.fullname, c.shortname FROM {course} AS c LEFT JOIN {connect_course_dets} AS cd ON c.id = cd.course WHERE isnull(cd.course)';
+    	$sql = 'SELECT DISTINCT c.id, c.fullname, c.shortname FROM {course} AS c LEFT JOIN {connect_course} AS cc ON cc.mid = c.id WHERE cc.id IS NULL';
     	$courses = $DB->get_records_sql($sql);
     	return $courses;
     }
@@ -52,7 +52,7 @@ function kent_meta_course_get_my_meta_courses($fields = NULL, $sort = 'sortorder
         $orderby = "ORDER BY $sort";
     }
 
-    $wheres = array("c.id <> :siteid", 'isnull(cd.course)');
+    $wheres = array("c.id <> :siteid", 'cc.course IS NULL');
     $params = array('siteid'=>SITEID);
 
     if (isset($USER->loginascontext) and $USER->loginascontext->contextlevel == CONTEXT_COURSE) {
@@ -67,11 +67,9 @@ function kent_meta_course_get_my_meta_courses($fields = NULL, $sort = 'sortorder
     $params['contextlevel'] = CONTEXT_COURSE;
     $wheres = implode(" AND ", $wheres);
 
-    //note: we can not use DISTINCT + text fields due to Oracle and MS limitations, that is why we have the subselect there
-
-    $sql = "SELECT $coursefields $ccselect
+    $sql = "SELECT DISTINCT $coursefields $ccselect
               FROM {course} c
-              LEFT JOIN {connect_course_dets} AS cd ON c.id = cd.course
+              LEFT JOIN {connect_course} AS cc ON cc.mid = c.id
               JOIN (SELECT DISTINCT e.courseid
                       FROM {enrol} e
                       JOIN {user_enrolments} ue ON (ue.enrolid = e.id AND ue.userid = :userid)
@@ -104,7 +102,7 @@ function kent_meta_course_get_my_courses($fields = NULL, $sort = 'sortorder ASC'
     $systemcontext = context_system::instance();
 
     if(has_capability('moodle/site:config', $systemcontext)) {
-    	$sql = 'SELECT c.id, c.fullname, c.shortname FROM {course} AS c LEFT JOIN {connect_course_dets} AS cd ON c.id = cd.course WHERE cd.course IS NOT NULL';
+    	$sql = 'SELECT DISTINCT c.id, c.fullname, c.shortname FROM {course} AS c LEFT JOIN {connect_course} AS cc ON cc.mid = c.id WHERE cc.id IS NOT NULL';
     	$courses = $DB->get_records_sql($sql);
     	return $courses;
     }
@@ -144,7 +142,7 @@ function kent_meta_course_get_my_courses($fields = NULL, $sort = 'sortorder ASC'
         $orderby = "ORDER BY $sort";
     }
 
-    $wheres = array("c.id <> :siteid", 'cd.course IS NOT NULL');
+    $wheres = array("c.id <> :siteid", 'cc.id IS NOT NULL');
     $params = array('siteid'=>SITEID);
 
     if (isset($USER->loginascontext) and $USER->loginascontext->contextlevel == CONTEXT_COURSE) {
@@ -159,11 +157,9 @@ function kent_meta_course_get_my_courses($fields = NULL, $sort = 'sortorder ASC'
     $params['contextlevel'] = CONTEXT_COURSE;
     $wheres = implode(" AND ", $wheres);
 
-    //note: we can not use DISTINCT + text fields due to Oracle and MS limitations, that is why we have the subselect there
-
-    $sql = "SELECT $coursefields $ccselect
+    $sql = "SELECT DISTINCT $coursefields $ccselect
               FROM {course} c
-              LEFT JOIN {connect_course_dets} AS cd ON c.id = cd.course
+              LEFT JOIN {connect_course} AS cc ON cc.mid = c.id
               JOIN (SELECT DISTINCT e.courseid
                       FROM {enrol} e
                       JOIN {user_enrolments} ue ON (ue.enrolid = e.id AND ue.userid = :userid)
