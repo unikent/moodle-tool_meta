@@ -27,7 +27,7 @@ if(!kent_meta_has_edit_course_access() && !has_capability('moodle/site:config', 
     throw new required_capability_exception($systemcontext, 'moodle/course:update', 'no_permissions', 'local_kentmetacourse');
 }
 
-//Get list of courses that the user has access to but which are not in the connect_course_dets table.
+//Get list of courses that the user has access to but which are not in the connect_course table.
 $courses = kent_meta_course_get_my_meta_courses();
 
 
