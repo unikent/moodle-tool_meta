@@ -52,7 +52,7 @@ function kent_meta_course_get_my_meta_courses($fields = NULL, $sort = 'sortorder
         $orderby = "ORDER BY $sort";
     }
 
-    $wheres = array("c.id <> :siteid", 'cc.course IS NULL');
+    $wheres = array("c.id <> :siteid", 'cc.id IS NULL');
     $params = array('siteid'=>SITEID);
 
     if (isset($USER->loginascontext) and $USER->loginascontext->contextlevel == CONTEXT_COURSE) {
