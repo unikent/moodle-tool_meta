@@ -18,13 +18,31 @@
 require_once(dirname(__FILE__) . '/../../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 
-admin_externalpage_setup('metamanager');
+if (has_capability('moodle/site:config', \context_system::instance())) {
+    admin_externalpage_setup('metamanager');
+} else {
+    if (!\tool_meta\User::has_course_update_role()) {
+        print_error('accessdenied', 'admin');
+    }
+}
 
-$renderer = $PAGE->get_renderer('tool_meta');
+$PAGE->requires->jquery();
+$PAGE->requires->jquery_plugin('migrate');
+$PAGE->requires->jquery_plugin('dataTables', 'tool_meta');
+$PAGE->requires->js('/admin/tool/meta/tool_meta.js');
+$PAGE->requires->css('/admin/tool/meta/styles.css');
+
+$id = optional_param('id', false, PARAM_INT);
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'tool_meta'));
 
-echo 'Under Development';
+$renderer = $PAGE->get_renderer('tool_meta');
+if ($id) {
+    $course = new \tool_meta\Course($id);
+    $renderer->print_link_table($course);
+} else {
+    $renderer->print_course_table();
+}
 
 echo $OUTPUT->footer();

@@ -31,4 +31,129 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class tool_meta_renderer extends plugin_renderer_base {
+    /**
+     * Prints a list of courses in a dataTables format.
+     */
+    public function print_course_table() {
+        echo <<<HTML
+            <div id="coursetable_wrap" class="index_course_table_wrap">
+                <div class="options_bar">
+                    <h3>Please</h3>
+                    <div class="search">
+                        <input type="text" id="search_box" name="search_box" placeholder="Search">
+                    </div>
+                    <h3>and choose a module to manage:</h3>
+                </div>
+                <table id="coursetable">
+                    <thead>
+                        <tr>
+                            <th id="shortname">Shortname</th>
+                            <th id="name">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+HTML;
+
+        if (has_capability('moodle/site:config', \context_system::instance())) {
+            $courses = \tool_meta\User::get_all_courses();
+        } else {
+            $courses = \tool_meta\User::get_my_courses();
+        }
+
+        foreach ($courses as $course) {
+            $editurl = new \moodle_url('/admin/tool/meta/index.php', array(
+                'id' => $course->id
+            ));
+
+            $courseurl = new \moodle_url('/course/view.php', array(
+                'id' => $course->id
+            ));
+
+            echo '<tr href="' . $editurl->out(true) .'">';
+            echo '<td>' . $course->shortname . '</td>';
+            echo '<td><a class="course_link" href="'. $courseurl->out(true) .'" target="_blank">View this course</a> ';
+            echo $course->shortname . ':' . $course->fullname . '</td>';
+            echo '</tr>';
+        }
+
+        echo <<<HTML
+                    </tbody>
+                </table>
+            </div>
+HTML;
+    }
+
+    /**
+     * Print out a table with courses to link to a given module.
+     */
+    public function print_link_table($course) {
+        global $DB;
+
+        $editurl = new \moodle_url('/course/view.php', array(
+            'id' => $course->id
+        ));
+
+        $courselink = \html_writer::tag('a', $course->shortname, array(
+            'href' => $editurl,
+            'target' => '_blank'
+        ));
+
+        echo <<<HTML
+            <div id="linkedcourses_wrap">
+                <h3>$courselink has the following meta enrolments (changes will be implemented overnight):</h3>
+HTML;
+
+        $rows = array();
+        $linked = $course->get_linked_courses();
+        foreach ($linked as $linkedcourse) {
+            $viewurl = new moodle_url('/course/view.php', array(
+                'id' => $linkedcourse->id
+            ));
+
+            $deleteurl = new moodle_url('/admin/tool/meta/index.php', array(
+                'action' => 'delete',
+                'sesskey' => sess_key(),
+                'instance' => $linkedcourse->enrol->id
+            ));
+
+            $row = '<li>';
+            $row .= \html_writer::tag('a', $linkedcourse->shortname, array(
+                'href' => $viewurl
+            ));
+            $row .= $linkedcourse->users . ($linkedcourse->users === '1' ? ' user' : ' users');
+            $row .= \html_writer::tag('a', 'x', array(
+                'class' => 'delete_link',
+                'href' => $deleteurl
+            ));
+
+            $rows[] = $row;
+        }
+
+        if (count($rows) > 0) {
+            echo '<ul id="linkedcourse">';
+            echo implode("\n", $rows);
+            echo '</ul>';
+
+            $url = new moodle_url('/admin/tool/meta/index.php', array(
+                'action' => 'delete_all',
+                'sesskey' => sess_key(),
+            ));
+            echo \html_writer::tag('a', 'Remove all enrolments', array(
+                'id' => 'delete_all',
+                'href' => $url
+            ));
+        } else {
+            echo '<div id="linkedcourse" class="no_enrolments">No Enrolments</div>';
+        }
+
+        $url = new moodle_url('/admin/tool/meta/add.php', array(
+            'id' => $course->id
+        ));
+        echo \html_writer::tag('a', 'Add enrolments', array(
+            'id' => 'add_modules',
+            'href' => $url
+        ));
+
+        echo '</div>';
+    }
 }
