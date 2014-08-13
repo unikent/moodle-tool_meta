@@ -111,6 +111,7 @@ HTML;
             ));
 
             $deleteurl = new moodle_url('/admin/tool/meta/index.php', array(
+                'id' => $course->id,
                 'action' => 'delete',
                 'sesskey' => sesskey(),
                 'instance' => $linkedcourse->enrol->id
@@ -120,7 +121,7 @@ HTML;
             $row .= \html_writer::tag('a', $linkedcourse->shortname, array(
                 'href' => $viewurl
             ));
-            $row .= $linkedcourse->users . ($linkedcourse->users === '1' ? ' user' : ' users');
+            $row .= ' (' .$linkedcourse->users . ($linkedcourse->users === '1' ? ' user' : ' users') . ')';
             $row .= \html_writer::tag('a', 'x', array(
                 'class' => 'delete_link',
                 'href' => $deleteurl
@@ -135,7 +136,8 @@ HTML;
             echo '</ul>';
 
             $url = new moodle_url('/admin/tool/meta/index.php', array(
-                'action' => 'delete_all',
+                'id' => $course->id,
+                'action' => 'deleteall',
                 'sesskey' => sesskey(),
             ));
             echo \html_writer::tag('a', 'Remove all enrolments', array(

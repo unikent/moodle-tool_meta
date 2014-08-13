@@ -35,7 +35,6 @@ $PAGE->requires->css('/admin/tool/meta/styles.css');
 
 $id = optional_param('id', false, PARAM_INT);
 $action = optional_param('action', false, PARAM_ALPHA);
-$courses = optional_param('courses', false, PARAM_RAW);
 
 if ($id) {
     $course = new \tool_meta\Course($id);
@@ -52,12 +51,32 @@ if ($id) {
             $renderer->print_add_table($course);
             break;
 
+        case 'deleteall':
+            require_sesskey();
+            $course->delete_all_links();
+
+            $renderer->print_link_table($course);
+            break;
+
+        case 'delete':
+            require_sesskey();
+            $instanceid = required_param('instance', PARAM_INT);
+            $course->delete_link($instanceid);
+
+            $renderer->print_link_table($course);
+            break;
+
         case 'submit':
             require_sesskey();
-            $links = json_decode($courses);
+
+            $links = required_param('courses', PARAM_RAW);
+            $links = json_decode($links);
             foreach ($links as $link) {
-                $course->add_meta($link);
+                $course->add_link($link);
             }
+
+            $renderer->print_link_table($course);
+            break;
 
         default:
             $renderer->print_link_table($course);
