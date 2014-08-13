@@ -35,6 +35,7 @@ $PAGE->requires->css('/admin/tool/meta/styles.css');
 
 $id = optional_param('id', false, PARAM_INT);
 $action = optional_param('action', false, PARAM_ALPHA);
+$courses = optional_param('courses', false, PARAM_RAW);
 
 if ($id) {
     $course = new \tool_meta\Course($id);
@@ -50,6 +51,13 @@ if ($id) {
         case 'add':
             $renderer->print_add_table($course);
             break;
+
+        case 'submit':
+            require_sesskey();
+            $links = json_decode($courses);
+            foreach ($links as $link) {
+                $course->add_meta($link);
+            }
 
         default:
             $renderer->print_link_table($course);

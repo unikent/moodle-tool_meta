@@ -47,6 +47,18 @@ class Course {
     }
 
     /**
+     * Add a meta enrolment link.
+     */
+    public function add_meta($id) {
+        $enrol = enrol_get_plugin('meta');
+        if (!$enrol->get_newinstance_link($this->course->id)) {
+            print_error('You do not have permissions to add to that course.');
+        }
+
+        return $enrol->add_instance($this->course, array('customint1' => $id));
+    }
+
+    /**
      * Get courses we *can* link too.
      */
     public function get_possible_links() {
@@ -58,7 +70,7 @@ class Course {
             $courses = User::get_my_courses();
         }
 
-        $exclusions = array();
+        $exclusions = array($this->course->id);
         $linked = $this->get_linked_courses();
         foreach ($linked as $link) {
             $exclusions[] = $link->id;

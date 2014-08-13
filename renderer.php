@@ -162,14 +162,14 @@ HTML;
      * Print out a table with courses to add to a given module.
      */
     public function print_add_table($course) {
-        $baseurl = new \moodle_url('/admin/tool/meta/index.php', array(
+        $formurl = new \moodle_url('/admin/tool/meta/index.php', array(
             'id' => $course->id,
-            'action' => 'add',
+            'action' => 'submit',
             'sesskey' => sesskey()
         ));
 
         echo <<<HTML
-            <form id="meta_enrol" name="meta_enrol" action="$baseurl" method="POST">
+            <form id="meta_enrol" name="meta_enrol" action="$formurl" method="POST">
                 <input type="hidden" name="courses" id="courses" value='' />
                 <input type="submit" id="meta_enrol_sub" />
             </form>
@@ -181,7 +181,7 @@ HTML;
                     </div>
                     <h3>then pick below and</h3>
                     <h3></h3>
-                    <div class="optbtn" id="add_enrol">add enrollments</div>
+                    <div class="optbtn" id="add_enrol">add enrolments</div>
                     <div class="optbtn" id="sel">select all</div>
                     <div class="optbtn hidden" id="desel">deselect all</div>
                 </div>
@@ -190,7 +190,7 @@ HTML;
                         <tr>
                             <th id="shortname">Shortname</th>
                             <th id="name">Name</th>
-                            <th id="enrol">Enrollments</th>
+                            <th id="enrol">Enrolments</th>
                         </tr>
                     </thead>
                     <tbody>

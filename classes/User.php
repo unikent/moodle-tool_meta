@@ -47,7 +47,8 @@ class User {
     public static function get_my_courses() {
         $courses = enrol_get_my_courses('id');
         foreach ($courses as $id => $course) {
-            if (has_capability('moodle/course:update', \context_course::instance($id))) {
+            $context = \context_course::instance($id);
+            if (has_capability('moodle/course:enrolconfig', $context) && has_capability('enrol/meta:config', $context)) {
                 yield $course;
             }
         }
