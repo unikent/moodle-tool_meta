@@ -47,6 +47,43 @@ class Course {
     }
 
     /**
+     * Get courses we *can* link too.
+     */
+    public function get_possible_links() {
+        global $DB;
+
+        if (has_capability('moodle/site:config', \context_system::instance())) {
+            $courses = User::get_all_courses();
+        } else {
+            $courses = User::get_my_courses();
+        }
+
+        $exclusions = array();
+        $linked = $this->get_linked_courses();
+        foreach ($linked as $link) {
+            $exclusions[] = $link->id;
+        }
+
+        foreach ($courses as $course) {
+            if (in_array($course->id, $exclusions)) {
+                continue;
+            }
+
+            $enrols = enrol_get_instances($course->id, false);
+            $count = 0;
+            foreach ($enrols as $enrol) {
+                $count += $DB->count_records('user_enrolments', array(
+                    'enrolid' => $enrol->id
+                ));
+            }
+
+            $course->enrolcount = $count;
+
+            yield $course;
+        }
+    }
+
+    /**
      * Returns all linked courses.
      */
     public function get_linked_courses() {

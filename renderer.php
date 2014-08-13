@@ -84,7 +84,7 @@ HTML;
     }
 
     /**
-     * Print out a table with courses to link to a given module.
+     * Print out a table with courses linked to a given module.
      */
     public function print_link_table($course) {
         global $DB;
@@ -112,7 +112,7 @@ HTML;
 
             $deleteurl = new moodle_url('/admin/tool/meta/index.php', array(
                 'action' => 'delete',
-                'sesskey' => sess_key(),
+                'sesskey' => sesskey(),
                 'instance' => $linkedcourse->enrol->id
             ));
 
@@ -136,7 +136,7 @@ HTML;
 
             $url = new moodle_url('/admin/tool/meta/index.php', array(
                 'action' => 'delete_all',
-                'sesskey' => sess_key(),
+                'sesskey' => sesskey(),
             ));
             echo \html_writer::tag('a', 'Remove all enrolments', array(
                 'id' => 'delete_all',
@@ -146,8 +146,9 @@ HTML;
             echo '<div id="linkedcourse" class="no_enrolments">No Enrolments</div>';
         }
 
-        $url = new moodle_url('/admin/tool/meta/add.php', array(
-            'id' => $course->id
+        $url = new moodle_url('/admin/tool/meta/index.php', array(
+            'id' => $course->id,
+            'action' => 'add'
         ));
         echo \html_writer::tag('a', 'Add enrolments', array(
             'id' => 'add_modules',
@@ -155,5 +156,69 @@ HTML;
         ));
 
         echo '</div>';
+    }
+
+    /**
+     * Print out a table with courses to add to a given module.
+     */
+    public function print_add_table($course) {
+        $baseurl = new \moodle_url('/admin/tool/meta/index.php', array(
+            'id' => $course->id,
+            'action' => 'add',
+            'sesskey' => sesskey()
+        ));
+
+        echo <<<HTML
+            <form id="meta_enrol" name="meta_enrol" action="$baseurl" method="POST">
+                <input type="hidden" name="courses" id="courses" value='' />
+                <input type="submit" id="meta_enrol_sub" />
+            </form>
+
+            <div id="coursetable_wrap" class="add_course_table_wrap">
+                <div class="options_bar">
+                    <div class="search">
+                        <input type="text" id="search_box" name="search_box" placeholder="Search">
+                    </div>
+                    <h3>then pick below and</h3>
+                    <h3></h3>
+                    <div class="optbtn" id="add_enrol">add enrollments</div>
+                    <div class="optbtn" id="sel">select all</div>
+                    <div class="optbtn hidden" id="desel">deselect all</div>
+                </div>
+                <table id="coursetable">
+                    <thead>
+                        <tr>
+                            <th id="shortname">Shortname</th>
+                            <th id="name">Name</th>
+                            <th id="enrol">Enrollments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+HTML;
+
+        $courses = $course->get_possible_links();
+        foreach ($courses as $course) {
+            $courseurl = new \moodle_url('/course/view.php', array(
+                'id' => $course->id
+            ));
+
+            echo '<tr course="' . $course->id .'">';
+            echo '<td>'.$course->shortname.'</td>';
+            echo '<td>';
+            echo \html_writer::tag('a', 'View this course', array(
+                'href' => $courseurl,
+                'class' => 'course_link',
+                'target' => '_blank'
+            ));
+            echo $course->shortname . ':' . $course->fullname . '</td>';
+            echo '<td>' . $course->enrolcount . '</td>';
+            echo '</tr>';
+        }
+
+        echo <<<HTML
+                    </tbody>
+                </table>
+            </div>
+HTML;
     }
 }

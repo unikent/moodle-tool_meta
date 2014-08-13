@@ -29,18 +29,32 @@ if (has_capability('moodle/site:config', \context_system::instance())) {
 $PAGE->requires->jquery();
 $PAGE->requires->jquery_plugin('migrate');
 $PAGE->requires->jquery_plugin('dataTables', 'tool_meta');
-$PAGE->requires->js('/admin/tool/meta/tool_meta.js');
+$PAGE->requires->js('/admin/tool/meta/script/underscore.min.js');
+$PAGE->requires->js('/admin/tool/meta/script/app.js');
 $PAGE->requires->css('/admin/tool/meta/styles.css');
 
 $id = optional_param('id', false, PARAM_INT);
+$action = optional_param('action', false, PARAM_ALPHA);
+
+if ($id) {
+    $course = new \tool_meta\Course($id);
+    $PAGE->navbar->add($course->shortname);
+}
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'tool_meta'));
 
 $renderer = $PAGE->get_renderer('tool_meta');
 if ($id) {
-    $course = new \tool_meta\Course($id);
-    $renderer->print_link_table($course);
+    switch ($action) {
+        case 'add':
+            $renderer->print_add_table($course);
+            break;
+
+        default:
+            $renderer->print_link_table($course);
+            break;
+    }
 } else {
     $renderer->print_course_table();
 }

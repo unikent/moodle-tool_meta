@@ -109,9 +109,6 @@ $(document).ready(function() {
     	});
     });
 
-    $('input').placeholder();
-
-
     function addCourse(c) {
     	if(_.indexOf(selectedRows, c) === -1) {
 			selectedRows.push(c);
