@@ -21,7 +21,7 @@ require_once($CFG->libdir . '/adminlib.php');
 if (has_capability('moodle/site:config', \context_system::instance())) {
     admin_externalpage_setup('metamanager');
 } else {
-    if (!\tool_meta\User::has_course_update_role()) {
+    if (!\local_kent\User::has_course_update_role($USER->id)) {
         print_error('accessdenied', 'admin');
     }
 }
