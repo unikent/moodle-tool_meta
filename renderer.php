@@ -191,12 +191,10 @@ HTML5;
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-6">
                         <input type="text" id="search_box" name="search_box" placeholder="Filter..." class="form-control" />
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-6">
                         <div class="options_bar">
                             <button class="btn btn-default pull-right" id="sel">Select all</button>
                             <button class="btn btn-default pull-right hidden" id="desel">Deselect all</button>
