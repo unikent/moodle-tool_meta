@@ -119,18 +119,12 @@
 }
 
 #coursetable_wrap {
-	&.add_course_table_wrap {
-		margin-top: 13px;
+	.row {
+		margin-bottom: 10px;
 	}
 
 	&.add_course_table_wrap {
-		.coursetable_pages {
-			background-color: rgb(159,179,156);
-			background-image: linear-gradient(bottom, rgb(143,167,138) 4%, rgb(159,179,156) 74%);
-			border-color: #abc4a7 #fff #fff #fff;
-			border-style: solid;
-			border-width: 1px;
-		}
+		margin-top: 13px;
 	}
 }
 
@@ -147,85 +141,46 @@
 	}
 }
 
-#sel, #desel {
-	float: right;
-	color: #6f6f6f;
-	background: #d6d6d6;
-	border-color: #848484;
-
-	&:hover {
-		background: #e3e3e3;
-	}
-
-	&:active {
-		background: #c4c4c4;
-	}
-}
-
-#add_enrol {
-	background: #27519f;
-	border-color: #1c3d7c;
-
-	&:hover {
-		background: #3b65b3;
-	}
-
-	&:active {
-		background: #224179;
-	}
-}
-
 #coursetable {
 	width: 100%;
-	margin: 10px 0 0 0;
+	margin: 0;
 
 	tbody {
 		tr {
 			cursor: pointer;
+			
+			&.selected {
+				background-color: #f5f5f5;
+			}
+
+			td {
+				padding: 20px;
+				color: #6f6f6f;
+
+				&.enrols {
+					text-align: center;
+				}
+
+				&.sorting_1 {
+					background: transparent;
+				}
+
+				.course_link {
+					text-indent: -9999px;
+					background: url([[pix:e/insert_edit_link]]) no-repeat center center;
+					width: 16px;
+					height: 16px;
+					display: block;
+					float: left;
+					padding: 4px;
+					margin-right: 10px;
+				}
+
+				.course_link:hover {
+					cursor: pointer;
+				}
+			}
 		}
-	}
-
-	td {
-		padding: 20px;
-		border-top: 1px solid #fff;
-		border-bottom: 1px solid #e3e3e3;
-		color: #6f6f6f;
-		text-shadow: 0 1px 1px #fff;
-
-		&:first-child {
-			border-left: 1px solid #fff;
-		}
-
-		&:last-child {
-			border-right: 1px solid #fff;
-		}
-
-		&.enrols {
-			text-align: center;
-		}
-
-		&.sorting_1 {
-			background: transparent;
-		}
-
-		.course_link {
-			text-indent: -9999px;
-			background: url([[pix:e/insert_edit_link]]) no-repeat center center;
-			width: 16px;
-			height: 16px;
-			display: block;
-			float: left;
-			padding: 4px;
-			margin-right: 10px;
-		}
-
-		.course_link:hover {
-			cursor: pointer;
-		}
-	}
-
-	tr:last-child td {
-		border-bottom: 1px solid #fff;
 	}
 }
 

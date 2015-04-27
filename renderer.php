@@ -154,6 +154,7 @@ HTML5;
 
         echo \html_writer::tag('a', 'Add enrolments', array(
             'class' => 'btn btn-primary',
+            'role' => 'button',
             'href' => new moodle_url('/admin/tool/meta/index.php', array(
                 'id' => $course->id,
                 'action' => 'add'
@@ -178,16 +179,24 @@ HTML5;
                 <input type="submit" id="meta_enrol_sub" />
             </form>
 
-            <div id="coursetable_wrap" class="add_course_table_wrap">
-                <div class="options_bar">
-                    <div class="search">
-                        <input type="text" id="search_box" name="search_box" placeholder="Search">
+            <div id="coursetable_wrap" class="add_course_table_wrap container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p>Please select a module to link to this.</p>
                     </div>
-                    <h3>then pick below and</h3>
-                    <h3></h3>
-                    <div class="optbtn" id="add_enrol">add enrolments</div>
-                    <div class="optbtn" id="sel">select all</div>
-                    <div class="optbtn hidden" id="desel">deselect all</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input type="text" id="search_box" name="search_box" placeholder="Filter..." class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="options_bar">
+                            <button class="btn btn-default pull-right" id="sel">Select all</button>
+                            <button class="btn btn-default pull-right hidden" id="desel">Deselect all</button>
+                        </div>
+                    </div>
                 </div>
                 <table id="coursetable">
                     <thead>
@@ -222,6 +231,8 @@ HTML5;
         echo <<<HTML5
                     </tbody>
                 </table>
+                
+                <button class="btn btn-primary pull-right" id="add_enrol">Save</button>
             </div>
 HTML5;
     }
