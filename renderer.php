@@ -100,10 +100,10 @@ HTML5;
             'target' => '_blank'
         ));
 
-        echo <<<HTML
+        echo <<<HTML5
             <div id="linkedcourses_wrap">
                 <h3>$courselink has the following meta enrolments (changes will be implemented overnight):</h3>
-HTML;
+HTML5;
 
         $rows = array();
         $linked = $course->get_linked_courses();
@@ -172,7 +172,7 @@ HTML;
             'sesskey' => sesskey()
         ));
 
-        echo <<<HTML
+        echo <<<HTML5
             <form id="meta_enrol" name="meta_enrol" action="$formurl" method="POST">
                 <input type="hidden" name="courses" id="courses" value='' />
                 <input type="submit" id="meta_enrol_sub" />
@@ -198,7 +198,7 @@ HTML;
                         </tr>
                     </thead>
                     <tbody>
-HTML;
+HTML5;
 
         $courses = $course->get_possible_links();
         foreach ($courses as $course) {
@@ -219,10 +219,10 @@ HTML;
             echo '</tr>';
         }
 
-        echo <<<HTML
+        echo <<<HTML5
                     </tbody>
                 </table>
             </div>
-HTML;
+HTML5;
     }
 }
