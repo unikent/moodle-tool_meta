@@ -53,7 +53,7 @@ class tool_meta_renderer extends plugin_renderer_base {
         }
 
         echo <<<HTML5
-            <div id="coursetable_wrap" class="index_course_table_wrap container-fluid">
+            <div id="coursetable_wrap" class="index_course_table_wrap">
                 <div class="row">
                     <div class="col-xs-12">
                         <p>Please select a module to manage.</p>
@@ -114,8 +114,8 @@ HTML5;
                 'href' => $viewurl
             ));
             $row .= ' (' .$linkedcourse->users . ($linkedcourse->users === '1' ? ' user' : ' users') . ')';
-            $row .= \html_writer::tag('a', 'x', array(
-                'class' => 'delete_link',
+            $row .= \html_writer::tag('a', '<i class="fa fa-remove"></i>', array(
+                'class' => 'delete_link pull-right',
                 'href' => $deleteurl
             ));
 
@@ -133,6 +133,11 @@ HTML5;
                 <div class="row">
                     <div class="col-xs-12">
                         <p>{$courselink} has the following meta enrolments:</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
                         <ul id="linkedcourse">
                             $rows
                         </ul>
@@ -147,7 +152,7 @@ HTML5;
                     'action' => 'deleteall',
                     'sesskey' => sesskey(),
                 ))
-            ));
+            )) . ' ';
         } else {
             echo '<p>No Enrolments</p>';
         }
@@ -179,7 +184,7 @@ HTML5;
                 <input type="submit" id="meta_enrol_sub" />
             </form>
 
-            <div id="coursetable_wrap" class="add_course_table_wrap container-fluid">
+            <div id="coursetable_wrap" class="add_course_table_wrap">
                 <div class="row">
                     <div class="col-xs-12">
                         <p>Please select a module to link to this.</p>
