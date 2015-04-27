@@ -35,25 +35,7 @@ class tool_meta_renderer extends plugin_renderer_base {
      * Prints a list of courses in a dataTables format.
      */
     public function print_course_table($courses) {
-        echo <<<HTML5
-            <div id="coursetable_wrap" class="index_course_table_wrap">
-                <div class="options_bar">
-                    <span>Please</span>
-                    <div class="search">
-                        <input type="text" id="search_box" name="search_box" placeholder="Search">
-                    </div>
-                    <span>and choose a module to manage:</span>
-                </div>
-                <table id="coursetable">
-                    <thead>
-                        <tr>
-                            <th id="shortname">Shortname</th>
-                            <th id="name">Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-HTML5;
-
+        $rows = "";
         foreach ($courses as $course) {
             $editurl = new \moodle_url('/admin/tool/meta/index.php', array(
                 'id' => $course->id
@@ -63,16 +45,42 @@ HTML5;
                 'id' => $course->id
             ));
 
-            echo '<tr href="' . $editurl->out(true) .'">';
-            echo '<td>' . $course->shortname . '</td>';
-            echo '<td><a class="course_link" href="'. $courseurl->out(true) .'" target="_blank">View this course</a> ';
-            echo $course->shortname . ':' . $course->fullname . '</td>';
-            echo '</tr>';
+            $rows .= '<tr href="' . $editurl->out(true) .'">';
+            $rows .= '<td>' . $course->shortname . '</td>';
+            $rows .= '<td><a class="course_link" href="'. $courseurl->out(true) .'" target="_blank">View this course</a> ';
+            $rows .= $course->shortname . ':' . $course->fullname . '</td>';
+            $rows .= '</tr>';
         }
 
         echo <<<HTML5
-                    </tbody>
-                </table>
+            <div id="coursetable_wrap" class="index_course_table_wrap container-fluid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p>Please select a module to manage.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input type="text" id="search_box" name="search_box" placeholder="Filter..." class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="table-responsive">
+                            <table id="coursetable" class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th id="shortname">Shortname</th>
+                                        <th id="name">Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    $rows
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
 HTML5;
     }
