@@ -35,14 +35,14 @@ class tool_meta_renderer extends plugin_renderer_base {
      * Prints a list of courses in a dataTables format.
      */
     public function print_course_table($courses) {
-        echo <<<HTML
+        echo <<<HTML5
             <div id="coursetable_wrap" class="index_course_table_wrap">
                 <div class="options_bar">
-                    <h3>Please</h3>
+                    <span>Please</span>
                     <div class="search">
                         <input type="text" id="search_box" name="search_box" placeholder="Search">
                     </div>
-                    <h3>and choose a module to manage:</h3>
+                    <span>and choose a module to manage:</span>
                 </div>
                 <table id="coursetable">
                     <thead>
@@ -52,7 +52,7 @@ class tool_meta_renderer extends plugin_renderer_base {
                         </tr>
                     </thead>
                     <tbody>
-HTML;
+HTML5;
 
         foreach ($courses as $course) {
             $editurl = new \moodle_url('/admin/tool/meta/index.php', array(
@@ -70,11 +70,11 @@ HTML;
             echo '</tr>';
         }
 
-        echo <<<HTML
+        echo <<<HTML5
                     </tbody>
                 </table>
             </div>
-HTML;
+HTML5;
     }
 
     /**

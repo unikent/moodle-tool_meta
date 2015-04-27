@@ -31,7 +31,7 @@ $PAGE->requires->jquery_plugin('migrate');
 $PAGE->requires->jquery_plugin('dataTables', 'tool_meta');
 $PAGE->requires->js('/admin/tool/meta/script/underscore.min.js');
 $PAGE->requires->js('/admin/tool/meta/script/app.js');
-$PAGE->requires->css('/admin/tool/meta/styles.css');
+$PAGE->requires->css('/admin/tool/meta/style/styles.css');
 
 $id = optional_param('id', false, PARAM_INT);
 $action = optional_param('action', false, PARAM_ALPHA);
