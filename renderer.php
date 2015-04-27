@@ -34,7 +34,7 @@ class tool_meta_renderer extends plugin_renderer_base {
     /**
      * Prints a list of courses in a dataTables format.
      */
-    public function print_course_table() {
+    public function print_course_table($courses) {
         echo <<<HTML
             <div id="coursetable_wrap" class="index_course_table_wrap">
                 <div class="options_bar">
@@ -53,12 +53,6 @@ class tool_meta_renderer extends plugin_renderer_base {
                     </thead>
                     <tbody>
 HTML;
-
-        if (has_capability('moodle/site:config', \context_system::instance())) {
-            $courses = \tool_meta\User::get_all_courses();
-        } else {
-            $courses = \tool_meta\User::get_my_courses();
-        }
 
         foreach ($courses as $course) {
             $editurl = new \moodle_url('/admin/tool/meta/index.php', array(

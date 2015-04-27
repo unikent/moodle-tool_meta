@@ -83,7 +83,14 @@ if ($id) {
             break;
     }
 } else {
-    $renderer->print_course_table();
+    $courses = array();
+    if (has_capability('moodle/site:config', \context_system::instance())) {
+        $courses = \tool_meta\User::get_all_courses();
+    } else {
+        $courses = \tool_meta\User::get_my_courses();
+    }
+
+    $renderer->print_course_table($courses);
 }
 
 echo $OUTPUT->footer();
