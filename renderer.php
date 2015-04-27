@@ -95,16 +95,6 @@ HTML5;
             'id' => $course->id
         ));
 
-        $courselink = \html_writer::tag('a', $course->shortname, array(
-            'href' => $editurl,
-            'target' => '_blank'
-        ));
-
-        echo <<<HTML5
-            <div id="linkedcourses_wrap">
-                <h3>$courselink has the following meta enrolments (changes will be implemented overnight):</h3>
-HTML5;
-
         $rows = array();
         $linked = $course->get_linked_courses();
         foreach ($linked as $linkedcourse) {
@@ -133,33 +123,43 @@ HTML5;
         }
 
         if (count($rows) > 0) {
-            echo '<ul id="linkedcourse">';
-            echo implode("\n", $rows);
-            echo '</ul>';
-
-            $url = new moodle_url('/admin/tool/meta/index.php', array(
-                'id' => $course->id,
-                'action' => 'deleteall',
-                'sesskey' => sesskey(),
+            $courselink = \html_writer::tag('a', $course->shortname, array(
+                'href' => $editurl,
+                'target' => '_blank'
             ));
+
+            $rows = implode("\n", $rows);
+            echo <<<HTML5
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p>{$courselink} has the following meta enrolments:</p>
+                        <ul id="linkedcourse">
+                            $rows
+                        </ul>
+                    </div>
+                </div>
+HTML5;
+
             echo \html_writer::tag('a', 'Remove all enrolments', array(
-                'id' => 'delete_all',
-                'href' => $url
+                'class' => 'btn btn-danger',
+                'href' => new moodle_url('/admin/tool/meta/index.php', array(
+                    'id' => $course->id,
+                    'action' => 'deleteall',
+                    'sesskey' => sesskey(),
+                ))
             ));
         } else {
-            echo '<div id="linkedcourse" class="no_enrolments">No Enrolments</div>';
+            echo '<p>No Enrolments</p>';
         }
 
-        $url = new moodle_url('/admin/tool/meta/index.php', array(
-            'id' => $course->id,
-            'action' => 'add'
-        ));
         echo \html_writer::tag('a', 'Add enrolments', array(
-            'id' => 'add_modules',
-            'href' => $url
+            'class' => 'btn btn-primary',
+            'href' => new moodle_url('/admin/tool/meta/index.php', array(
+                'id' => $course->id,
+                'action' => 'add'
+            ))
         ));
 
-        echo '</div>';
     }
 
     /**
