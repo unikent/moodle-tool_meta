@@ -18,13 +18,13 @@
  * Version information
  *
  * @package    tool_meta
- * @copyright  2014 University of Kent
+ * @copyright  2015 University of Kent
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'tool_meta';
-$plugin->version   = 2014081200;
+$plugin->version   = 2015042700;
 $plugin->requires  = 2014051200;
 $plugin->cron      = 0;
