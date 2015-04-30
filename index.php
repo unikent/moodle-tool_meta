@@ -31,7 +31,7 @@ $PAGE->requires->jquery_plugin('migrate');
 $PAGE->requires->jquery_plugin('dataTables', 'tool_meta');
 $PAGE->requires->js('/admin/tool/meta/script/underscore.min.js');
 $PAGE->requires->js('/admin/tool/meta/script/app.js');
-$PAGE->requires->css('/admin/tool/meta/styles.css');
+$PAGE->requires->css('/admin/tool/meta/style/styles.css');
 
 $id = optional_param('id', false, PARAM_INT);
 $action = optional_param('action', false, PARAM_ALPHA);
@@ -43,6 +43,7 @@ if ($id) {
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'tool_meta'));
+echo '<div class="bootstrap container-fluid">';
 
 $renderer = $PAGE->get_renderer('tool_meta');
 if ($id) {
@@ -83,7 +84,15 @@ if ($id) {
             break;
     }
 } else {
-    $renderer->print_course_table();
+    $courses = array();
+    if (has_capability('moodle/site:config', \context_system::instance())) {
+        $courses = \tool_meta\User::get_all_courses();
+    } else {
+        $courses = \tool_meta\User::get_my_courses();
+    }
+
+    $renderer->print_course_table($courses);
 }
 
+echo '</div>';
 echo $OUTPUT->footer();
