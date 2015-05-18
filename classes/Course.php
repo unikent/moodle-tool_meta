@@ -156,7 +156,12 @@ class Course {
 
             $course = $DB->get_record('course', array(
                 'id' => $instance->customint1
-            ), '*', MUST_EXIST);
+            ));
+
+            if (!$course) {
+                debugging("Invalid meta enrolment: {$instance->id}!");
+                continue;
+            }
 
             $users = $DB->count_records('user_enrolments', array(
                 'enrolid' => $instance->id
