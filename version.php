@@ -25,6 +25,5 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'tool_meta';
-$plugin->version   = 2015042700;
+$plugin->version   = 2015060500;
 $plugin->requires  = 2014051200;
-$plugin->cron      = 0;
