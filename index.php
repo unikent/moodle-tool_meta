@@ -18,9 +18,12 @@
 require_once(dirname(__FILE__) . '/../../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 
+require_login();
+
 $id = optional_param('id', false, PARAM_INT);
 $action = optional_param('action', false, PARAM_ALPHA);
 
+$PAGE->set_context(\context_system::instance());
 $PAGE->set_url('/admin/tool/meta/index.php', array(
     'id' => $id,
     'action' => $action
