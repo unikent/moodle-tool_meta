@@ -18,6 +18,15 @@
 require_once(dirname(__FILE__) . '/../../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 
+$id = optional_param('id', false, PARAM_INT);
+$action = optional_param('action', false, PARAM_ALPHA);
+
+$PAGE->set_url('/admin/tool/meta/index.php', array(
+    'id' => $id,
+    'action' => $action
+));
+
+// Capability checks.
 if (has_capability('moodle/site:config', \context_system::instance())) {
     admin_externalpage_setup('metamanager');
 } else {
@@ -32,9 +41,6 @@ $PAGE->requires->jquery_plugin('dataTables', 'tool_meta');
 $PAGE->requires->js('/admin/tool/meta/script/underscore.min.js');
 $PAGE->requires->js('/admin/tool/meta/script/app.js');
 $PAGE->requires->css('/admin/tool/meta/style/styles.css');
-
-$id = optional_param('id', false, PARAM_INT);
-$action = optional_param('action', false, PARAM_ALPHA);
 
 if ($id) {
     $course = new \tool_meta\Course($id);
