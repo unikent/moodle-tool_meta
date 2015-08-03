@@ -159,7 +159,6 @@ class Course {
             ));
 
             if (!$course) {
-                debugging("Invalid meta enrolment: {$instance->id}!");
                 continue;
             }
 
