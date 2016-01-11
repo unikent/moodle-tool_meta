@@ -38,11 +38,8 @@ if (has_capability('moodle/site:config', \context_system::instance())) {
     }
 }
 
-$PAGE->requires->jquery();
-$PAGE->requires->jquery_plugin('migrate');
-$PAGE->requires->jquery_plugin('dataTables', 'tool_meta');
 $PAGE->requires->js(new \moodle_url('https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'));
-$PAGE->requires->js('/admin/tool/meta/script/app.js');
+$PAGE->requires->js_call_amd('tool_meta/app', 'init', array());
 $PAGE->requires->css('/admin/tool/meta/style/styles.css');
 
 if ($id) {
