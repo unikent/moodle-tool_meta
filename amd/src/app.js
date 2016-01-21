@@ -39,12 +39,20 @@ define(['jquery', 'tool_meta/jquery.dataTables', 'tool_meta/dataTables.bootstrap
                 "dom": 'rt<"coursetable_pages"lp>'
             });
 
-            $('.index_course_table_wrap #search_box').keyup(function() {
+            $('.index_course_table_wrap #search_box').on('change paste keyup', function() {
                 if($(this).val().length > 1) {
-                    oTable.search($(this).val());
+                    oTable.search($(this).val(), false, true).draw();
                 } else {
-                    oTable.search('');
+                    oTable.search('').draw();
                 }
+            });
+
+            $(document).on('click', '.index_course_table_wrap #coursetable tbody tr', function(e) {
+                if(e.target === $('.course_link',this)[0]){
+                    return true;
+                }
+                window.location = $(this).attr('href');
+                return false;
             });
 
             var aTable = $('.add_course_table_wrap #coursetable').DataTable( {
@@ -62,20 +70,12 @@ define(['jquery', 'tool_meta/jquery.dataTables', 'tool_meta/dataTables.bootstrap
                 "dom": 'rt<"coursetable_pages"lp>'
             });
 
-            $('.add_course_table_wrap #search_box').keyup(function() {
+            $('.add_course_table_wrap #search_box').on('change paste keyup', function() {
                 if($(this).val().length > 1) {
-                    aTable.search($(this).val());
+                    aTable.search($(this).val(), false, true).draw();
                 } else {
-                    aTable.search('');
+                    aTable.search('').draw();
                 }
-            });
-
-            $(document).on('click', '.index_course_table_wrap #coursetable tbody tr', function(e) {
-                if(e.target === $('.course_link',this)[0]){
-                    return true;
-                }
-                window.location = $(this).attr('href');
-                return false;
             });
 
             $(document).on('click', '.add_course_table_wrap #coursetable tbody tr', function(e) {
@@ -85,7 +85,7 @@ define(['jquery', 'tool_meta/jquery.dataTables', 'tool_meta/dataTables.bootstrap
 
                 c = Number($(this).attr('course'));
 
-                if($(this).haclassName('selected')) {
+                if($(this).hasClass('selected')) {
                     removeCourse(c);
                     $(this).removeClass('selected');
                 } else {
