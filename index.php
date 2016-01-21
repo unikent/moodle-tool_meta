@@ -40,7 +40,7 @@ if (has_capability('moodle/site:config', \context_system::instance())) {
 
 $PAGE->requires->js(new \moodle_url('https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'));
 $PAGE->requires->js_call_amd('tool_meta/app', 'init', array());
-$PAGE->requires->css('/admin/tool/meta/style/styles.css');
+$PAGE->requires->css('/admin/tool/meta/less/build/build.css');
 
 if ($id) {
     $course = new \tool_meta\Course($id);
