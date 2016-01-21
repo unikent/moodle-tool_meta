@@ -23,9 +23,20 @@
   * @module tool_meta/app
   */
 define(['jquery', 'tool_meta/jquery.dataTables', 'tool_meta/dataTables.bootstrap'], function($, dt, dtb) {
+    var selectedRows = [];
+
+    function addCourse(c) {
+        if (_.indexOf(selectedRows, c) === -1) {
+            selectedRows.push(c);
+        }
+    }
+
+    function removeCourse(c) {
+        selectedRows = _.reject(selectedRows, function(i) { return i === c});
+    }
+
     return {
         init: function() {
-            var selectedRows = [];
 
             var oTable = $('.index_course_table_wrap #coursetable').DataTable({
                 "autoWidth": false,
@@ -40,15 +51,17 @@ define(['jquery', 'tool_meta/jquery.dataTables', 'tool_meta/dataTables.bootstrap
             });
 
             $('.index_course_table_wrap #search_box').on('change paste keyup', function() {
-                if($(this).val().length > 1) {
-                    oTable.search($(this).val(), false, true).draw();
+                if ($(this).val().length > 1) {
+                    oTable.search($(this).val(), false, true);
                 } else {
-                    oTable.search('').draw();
+                    oTable.search('');
                 }
+
+                oTable.draw();
             });
 
             $(document).on('click', '.index_course_table_wrap #coursetable tbody tr', function(e) {
-                if(e.target === $('.course_link',this)[0]){
+                if (e.target === $('.course_link',this)[0]){
                     return true;
                 }
                 window.location = $(this).attr('href');
@@ -71,41 +84,42 @@ define(['jquery', 'tool_meta/jquery.dataTables', 'tool_meta/dataTables.bootstrap
             });
 
             $('.add_course_table_wrap #search_box').on('change paste keyup', function() {
-                if($(this).val().length > 1) {
-                    aTable.search($(this).val(), false, true).draw();
+                if ($(this).val().length > 1) {
+                    aTable.search($(this).val(), false, true);
                 } else {
-                    aTable.search('').draw();
+                    aTable.search('');
                 }
+
+                oTable.draw();
             });
 
             $(document).on('click', '.add_course_table_wrap #coursetable tbody tr', function(e) {
-                if(e.target === $('.course_link',this)[0]){
+                if (e.target === $('.course_link',this)[0]){
                     return true;
                 }
 
-                c = Number($(this).attr('course'));
+                var c = Number($(this).attr('course'));
 
-                if($(this).hasClass('selected')) {
+                if ($(this).hasClass('selected')) {
                     removeCourse(c);
                     $(this).removeClass('selected');
+                    $(this).find('td.name .fa').remove();
                 } else {
                     addCourse(c);
                     $(this).addClass('selected');
+                    $(this).find('td.name').prepend('<i class="fa fa-check"></i>');
                 }
                 
                 return false;
             });
 
             $('#sel').click(function() {
-
                 $(this).addClass('hidden');
-
                 $('#desel').removeClass('hidden');
 
                 var rows = aTable.rows();
                 $.each(rows, function(i,r) {
                     var c = Number($(r).attr('course'));
-
                     addCourse(c);
 
                     $(r).addClass('selected');
@@ -114,10 +128,9 @@ define(['jquery', 'tool_meta/jquery.dataTables', 'tool_meta/dataTables.bootstrap
 
             $('#desel').click(function() {
                 $(this).addClass('hidden');
-
                 $('#sel').removeClass('hidden');
 
-                var rows = aTable.fnGetNodes()
+                var rows = aTable.rows()
                 $.each(rows, function(i, r) {
                     var c = Number($(r).attr('course'));
                     removeCourse(c);
@@ -125,17 +138,6 @@ define(['jquery', 'tool_meta/jquery.dataTables', 'tool_meta/dataTables.bootstrap
                     $(r).removeClass('selected');
                 });
             });
-
-            function addCourse(c) {
-                if(_.indexOf(selectedRows, c) === -1) {
-                    selectedRows.push(c);
-                }
-            }
-
-            function removeCourse(c) {
-                selectedRows = _.reject(selectedRows, function(i){ return i === c});
-            }
-
 
             $('#add_enrol').click(function() {
                 $('#courses').val(JSON.stringify(selectedRows));
