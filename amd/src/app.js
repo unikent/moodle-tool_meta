@@ -83,14 +83,14 @@ define(['jquery', 'tool_meta/jquery.dataTables', 'tool_meta/dataTables.bootstrap
                 "dom": 'rt<"coursetable_pages"lp>'
             });
 
-            $('.add_course_table_wrap #search_box').on('change paste keyup', function() {
+            $('.add_course_table_wrap #search_box').on('change paste keyup', function() {console
                 if ($(this).val().length > 1) {
                     aTable.search($(this).val(), false, true);
                 } else {
                     aTable.search('');
                 }
 
-                oTable.draw();
+                aTable.draw();
             });
 
             $(document).on('click', '.add_course_table_wrap #coursetable tbody tr', function(e) {
@@ -109,7 +109,7 @@ define(['jquery', 'tool_meta/jquery.dataTables', 'tool_meta/dataTables.bootstrap
                     $(this).addClass('selected');
                     $(this).find('td.name').prepend('<i class="fa fa-check"></i>');
                 }
-                
+
                 return false;
             });
 
