@@ -113,7 +113,7 @@ HTML5;
             $row .= \html_writer::tag('a', $linkedcourse->shortname, array(
                 'href' => $viewurl
             ));
-            $row .= ' (' .$linkedcourse->users . ($linkedcourse->users === '1' ? ' user' : ' users') . ')';
+            $row .= ' (' . $linkedcourse->totalusers . ($linkedcourse->totalusers === '1' ? ' user' : ' users') . ')';
             $row .= \html_writer::tag('a', '<i class="fa fa-remove"></i>', array(
                 'class' => 'delete_link pull-right',
                 'href' => $deleteurl
@@ -234,7 +234,7 @@ HTML5;
         echo <<<HTML5
                     </tbody>
                 </table>
-                
+
                 <button class="btn btn-primary pull-right" id="add_enrol">Save</button>
             </div>
 HTML5;
