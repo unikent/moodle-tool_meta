@@ -125,18 +125,27 @@ class Course {
                 continue;
             }
 
-            $enrols = enrol_get_instances($course->id, false);
-            $count = 0;
-            foreach ($enrols as $enrol) {
-                $count += $DB->count_records('user_enrolments', array(
-                    'enrolid' => $enrol->id
-                ));
-            }
-
-            $course->enrolcount = $count;
+            $course->enrolcount = $this->count_enrolments($course);
 
             yield $course;
         }
+    }
+
+    /**
+     * Grab the number of enrolments for a given course.
+     */
+    private function count_enrolments($course) {
+        global $DB;
+
+        $enrols = enrol_get_instances($course->id, false);
+        $count = 0;
+        foreach ($enrols as $enrol) {
+            $count += $DB->count_records('user_enrolments', array(
+                'enrolid' => $enrol->id
+            ));
+        }
+
+        return $count;
     }
 
     /**
@@ -168,6 +177,7 @@ class Course {
 
             $course->enrol = $instance;
             $course->users = $users;
+            $course->totalusers = $this->count_enrolments($course);
 
             yield $course;
         }

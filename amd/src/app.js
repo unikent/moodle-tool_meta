@@ -90,7 +90,7 @@ define(['jquery', 'tool_meta/jquery.dataTables', 'tool_meta/dataTables.bootstrap
                     aTable.search('');
                 }
 
-                oTable.draw();
+                aTable.draw();
             });
 
             $(document).on('click', '.add_course_table_wrap #coursetable tbody tr', function(e) {
@@ -109,7 +109,7 @@ define(['jquery', 'tool_meta/jquery.dataTables', 'tool_meta/dataTables.bootstrap
                     $(this).addClass('selected');
                     $(this).find('td.name').prepend('<i class="fa fa-check"></i>');
                 }
-                
+
                 return false;
             });
 
