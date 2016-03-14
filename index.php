@@ -49,7 +49,6 @@ if ($id) {
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'tool_meta'));
-echo '<div class="bootstrap container-fluid">';
 
 $renderer = $PAGE->get_renderer('tool_meta');
 if ($id) {
@@ -100,5 +99,4 @@ if ($id) {
     $renderer->print_course_table($courses);
 }
 
-echo '</div>';
 echo $OUTPUT->footer();
