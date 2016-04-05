@@ -69,6 +69,8 @@ class Course {
      * Delete a link
      */
     public function delete_link($instanceid, $courseid) {
+        global $DB;
+
         $this->check_enrol_change_allowed();
 
         $plugins   = enrol_get_plugins(false);
@@ -81,13 +83,13 @@ class Course {
         $instance = $instances[$instanceid];
         $plugin = $plugins[$instance->enrol];
 
-        $current = explode(',', $instance->customtext1);
-        $key = array_search($courseid, $current);
-        if ($key !== false){
-            unset($current[$key]);
+        $courses = $DB->get_records('enrol_metaplus', array('enrolid' => $instance->id), '', 'courseid');
+        if (isset($courses[$courseid])) {
+            unset($courses[$courseid]);
         }
+        $courses = array_keys($courses);
 
-        return \enrol_metaplus\core::create_or_update($this->course, $id, $current, $instance);
+        return \enrol_metaplus\core::create_or_update($this->course, $courses, array(), $instance);
     }
 
     /**
