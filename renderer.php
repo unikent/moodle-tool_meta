@@ -106,7 +106,8 @@ HTML5;
                 'id' => $course->id,
                 'action' => 'delete',
                 'sesskey' => sesskey(),
-                'instance' => $linkedcourse->enrol->id
+                'instance' => $linkedcourse->enrol->id,
+                'courseid' => $linkedcourse->id
             ));
 
             $row = '<li>';

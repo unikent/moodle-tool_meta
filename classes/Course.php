@@ -62,14 +62,13 @@ class Course {
     public function add_link($id) {
         $this->check_enrol_change_allowed();
 
-        $enrol = enrol_get_plugin('metaplus');
-        return $enrol->add_instance($this->course, array('customint1' => $id));
+        return \enrol_metaplus\core::create_or_add($this->course, $id);
     }
 
     /**
      * Delete a link
      */
-    public function delete_link($instanceid) {
+    public function delete_link($instanceid, $courseid) {
         $this->check_enrol_change_allowed();
 
         $plugins   = enrol_get_plugins(false);
@@ -82,7 +81,13 @@ class Course {
         $instance = $instances[$instanceid];
         $plugin = $plugins[$instance->enrol];
 
-        return $plugin->delete_instance($instance);
+        $current = explode(',', $instance->customtext1);
+        $key = array_search($courseid, $current);
+        if ($key !== false){
+            unset($current[$key]);
+        }
+
+        return \enrol_metaplus\core::create_or_update($this->course, $id, $current, $instance);
     }
 
     /**
@@ -154,32 +159,49 @@ class Course {
     public function get_linked_courses() {
         global $DB;
 
-        $plugins   = enrol_get_plugins(false);
         $instances = enrol_get_instances($this->course->id, false);
         foreach ($instances as $instance) {
-            if (($instance->enrol !== 'meta' && $instance->enrol !== 'metaplus') || !isset($plugins[$instance->enrol])) {
-                continue;
+            if ($instance->enrol === 'meta') {
+                $users = $this->get_linked_users($instance->customint1, $instance);
+                if ($users) {
+                    yield $users;
+                }
             }
 
-            $plugin = $plugins[$instance->enrol];
-
-            $course = $DB->get_record('course', array(
-                'id' => $instance->customint1
-            ));
-
-            if (!$course) {
-                continue;
+            if ($instance->enrol === 'metaplus') {
+                $courses = $DB->get_records('enrol_metaplus', array('enrolid' => $instance->id));
+                foreach ($courses as $course) {
+                    $users = $this->get_linked_users($course->courseid, $instance);
+                    if ($users) {
+                        yield $users;
+                    }
+                }
             }
-
-            $users = $DB->count_records('user_enrolments', array(
-                'enrolid' => $instance->id
-            ));
-
-            $course->enrol = $instance;
-            $course->users = $users;
-            $course->totalusers = $this->count_enrolments($course);
-
-            yield $course;
         }
+    }
+
+    /**
+     * Returns all linked users on a course.
+     */
+    public function get_linked_users($courseid, $instance) {
+        global $DB;
+
+        $course = $DB->get_record('course', array(
+            'id' => $courseid
+        ));
+
+        if (!$course) {
+            return null;
+        }
+
+        $users = $DB->count_records('user_enrolments', array(
+            'enrolid' => $instance->id
+        ));
+
+        $course->enrol = $instance;
+        $course->users = $users;
+        $course->totalusers = $this->count_enrolments($course);
+
+        return $course;
     }
 }

@@ -66,8 +66,9 @@ if ($id) {
 
         case 'delete':
             require_sesskey();
+            $courseid = required_param('courseid', PARAM_INT);
             $instanceid = required_param('instance', PARAM_INT);
-            $course->delete_link($instanceid);
+            $course->delete_link($instanceid, $courseid);
 
             $renderer->print_link_table($course);
             break;
