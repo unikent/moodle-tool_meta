@@ -50,19 +50,19 @@ class Course {
      * Make sure we are allowed to touch certain things.
      */
     private function check_enrol_change_allowed() {
-        $enrol = enrol_get_plugin('meta');
+        $enrol = enrol_get_plugin('metaplus');
         if (!$enrol->get_newinstance_link($this->course->id)) {
             print_error('You do not have permissions to add to that course.');
         }
     }
 
     /**
-     * Add a meta enrolment link.
+     * Add a metaplus enrolment link.
      */
     public function add_link($id) {
         $this->check_enrol_change_allowed();
 
-        $enrol = enrol_get_plugin('meta');
+        $enrol = enrol_get_plugin('metaplus');
         return $enrol->add_instance($this->course, array('customint1' => $id));
     }
 
@@ -95,7 +95,7 @@ class Course {
         $instances = enrol_get_instances($this->course->id, false);
 
         foreach ($instances as $instance) {
-            if ($instance->enrol === 'meta') {
+            if ($instance->enrol === 'metaplus') {
                 $plugin = $plugins[$instance->enrol];
                 $plugin->delete_instance($instance);
             }
@@ -157,7 +157,7 @@ class Course {
         $plugins   = enrol_get_plugins(false);
         $instances = enrol_get_instances($this->course->id, false);
         foreach ($instances as $instance) {
-            if ($instance->enrol !== 'meta' || !isset($plugins[$instance->enrol])) {
+            if (($instance->enrol !== 'meta' && $instance->enrol !== 'metaplus') || !isset($plugins[$instance->enrol])) {
                 continue;
             }
 
